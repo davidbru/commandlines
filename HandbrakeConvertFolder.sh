@@ -14,6 +14,11 @@
 finalCommand=""
 userSpecifiedFolder="$1"
 
+# catch trailing slash from userinput
+if [ "${userSpecifiedFolder: -1}" = "/" ]; then
+  userSpecifiedFolder="${userSpecifiedFolder%?}"
+fi
+
 # create "converted" folder
 finalFolder="converted"
 mkdir -p "$userSpecifiedFolder"/"$finalFolder"
