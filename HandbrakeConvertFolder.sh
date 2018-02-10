@@ -26,24 +26,24 @@ mkdir -p "$userSpecifiedFolder"/"$finalFolder"
 # go through files in user specified folder and convert them
 for entry in "$userSpecifiedFolder"/*
 do
-  if [ -f "$entry" ]; then
-	export fspec=$entry
-	fdir=$(dirname "$fspec")
-	fnameWithExt=$(basename "$fspec")
-	fnameWitoutExt="${fnameWithExt%.*}"
-	fext="${fnameWithExt##*.}"
+    if [ -f "$entry" ]; then
+        export fspec=$entry
+        fdir=$(dirname "$fspec")
+        fnameWithExt=$(basename "$fspec")
+        fnameWitoutExt="${fnameWithExt%.*}"
+        fext="${fnameWithExt##*.}"
 
-	#echo $fspec
-	#echo $fdir
-	#echo $fnameWithExt
-	#echo $fnameWitoutExt
-	#echo $fext
+        #echo $fspec
+        #echo $fdir
+        #echo $fnameWithExt
+        #echo $fnameWitoutExt
+        #echo $fext
 
-	if [ "$finalCommand" != "" ]; then
-	    finalCommand="$finalCommand; "
-	fi
-	finalCommand="$finalCommand HandBrakeCLI -i $fspec -o $fdir/$finalFolder/$fnameWitoutExt.mp4"
-  fi
+        if [ "$finalCommand" != "" ]; then
+            finalCommand="$finalCommand; "
+        fi
+        finalCommand="$finalCommand HandBrakeCLI -i $fspec -o $fdir/$finalFolder/$fnameWitoutExt.mp4"
+    fi
 done
 
 eval $finalCommand
