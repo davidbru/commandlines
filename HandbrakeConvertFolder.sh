@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Convert files with HandBrakeCLI in user specified folder
 #   Creates a "converted" folder in the specified folder with the converted files
