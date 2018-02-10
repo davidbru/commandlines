@@ -8,14 +8,18 @@
 #   Current location: /usr/local/bin/HandBrakeCLI
 
 # Usage
+#   chmod +x ./HandbrakeConvertFolder.sh
 #   ./HandbrakeConvertFolder.sh /path/to/folder
+
+finalCommand=""
+userSpecifiedFolder="$1"
 
 # create "converted" folder
 finalFolder="converted"
-mkdir -p "$1"/"$finalFolder"
+mkdir -p "$userSpecifiedFolder"/"$finalFolder"
 
 # go through files in user specified folder and convert them
-for entry in "$1"/*
+for entry in "$userSpecifiedFolder"/*
 do
   if [ -f "$entry" ]; then
 	export fspec=$entry
@@ -24,12 +28,17 @@ do
 	fnameWitoutExt="${fnameWithExt%.*}"
 	fext="${fnameWithExt##*.}"
 
-	echo $fspec
-	echo $fdir
+	#echo $fspec
+	#echo $fdir
 	#echo $fnameWithExt
-	echo $fnameWitoutExt
-	echo $fext
+	#echo $fnameWitoutExt
+	#echo $fext
 
-	echo "HandBrakeCLI -i $fspec -o $fdir/$finalFolder/$fnameWitoutExt.mp4"
+	if [ "$finalCommand" != "" ]; then
+	    finalCommand="$finalCommand && "
+	fi
+	finalCommand="$finalCommand HandBrakeCLI -i $fspec -o $fdir/$finalFolder/$fnameWitoutExt.mp4"
   fi
 done
+
+echo $finalCommand
