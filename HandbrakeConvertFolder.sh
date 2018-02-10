@@ -40,10 +40,10 @@ do
 	#echo $fext
 
 	if [ "$finalCommand" != "" ]; then
-	    finalCommand="$finalCommand && "
+	    finalCommand="$finalCommand; "
 	fi
 	finalCommand="$finalCommand HandBrakeCLI -i $fspec -o $fdir/$finalFolder/$fnameWitoutExt.mp4"
   fi
 done
 
-$finalCommand
+eval $finalCommand
