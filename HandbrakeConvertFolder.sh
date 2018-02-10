@@ -16,7 +16,7 @@ userSpecifiedFolder="$1"
 
 # catch trailing slash from userinput
 if [ "${userSpecifiedFolder: -1}" = "/" ]; then
-  userSpecifiedFolder="${userSpecifiedFolder%?}"
+    userSpecifiedFolder="${userSpecifiedFolder%?}"
 fi
 
 # create "converted" folder
