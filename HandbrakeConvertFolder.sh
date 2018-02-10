@@ -46,4 +46,4 @@ do
   fi
 done
 
-echo $finalCommand
+$finalCommand
