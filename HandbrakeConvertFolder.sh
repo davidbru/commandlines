@@ -24,31 +24,28 @@ fi
 outputFolder="${inputFolder}_converted"
 mkdir -p "${outputFolder}"
 
-# escape special characters
-printf -v inputFolderEsc "%q" "$inputFolder"
-printf -v outputFolderEsc "%q" "$outputFolder"
-
 # go through files in user specified folder and convert them
 for entry in "$inputFolder"/*
 do
     if [ -f "$entry" ]; then
         export fspec=$entry
         fnameWithExt=$(basename "$fspec")
-        printf -v fnameWithExtEsc "%q" "$fnameWithExt"
-        fnameWithoutExt="${fnameWithExtEsc%.*}"
+        fnameWithoutExt="${fnameWithExt%.*}"
         fext="${fnameWithExt##*.}"
 
         #echo $fspec
-        #echo $fdir
         #echo $fnameWithExt
-        #echo $fnameWithExtEsc
         #echo $fnameWithoutExt
         #echo $fext
+
+        # escape special characters
+        printf -v inputFileFolder "%q" "$inputFolder/$fnameWithExt"
+        printf -v outputFileFolder "%q" "$outputFolder/$fnameWithoutExt.mp4"
 
         if [ "$finalCommand" != "" ]; then
             finalCommand="$finalCommand; "
         fi
-        finalCommand="$finalCommand HandBrakeCLI -i $inputFolderEsc/$fnameWithExtEsc -o $outputFolderEsc/$fnameWithoutExt.mp4"
+        finalCommand="$finalCommand HandBrakeCLI -i $inputFileFolder -o $outputFileFolder"
     fi
 done
 
