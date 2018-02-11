@@ -12,15 +12,15 @@
 #   ./HandbrakeConvertFolder.sh /path/to/folder
 
 finalCommand=""
-userSpecifiedFolder="$1"
 
 # catch trailing slash from userinput
+read -p "Pfad zum zu konvertierenden Ordner: " userSpecifiedFolder
 if [ "${userSpecifiedFolder: -1}" = "/" ]; then
     userSpecifiedFolder="${userSpecifiedFolder%?}"
 fi
 
 # create "converted" folder
-finalFolder="converted"
+finalFolder="../converted"
 mkdir -p "$userSpecifiedFolder"/"$finalFolder"
 
 # go through files in user specified folder and convert them
