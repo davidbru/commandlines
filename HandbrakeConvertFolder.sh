@@ -9,7 +9,8 @@
 
 # Usage
 #   chmod +x ./HandbrakeConvertFolder.sh
-#   ./HandbrakeConvertFolder.sh /path/to/folder
+#   ./HandbrakeConvertFolder.sh
+#       specify /path/to/folder
 
 finalCommand=""
 
@@ -20,8 +21,8 @@ if [ "${userSpecifiedFolder: -1}" = "/" ]; then
 fi
 
 # create "converted" folder
-finalFolder="../converted"
-mkdir -p "$userSpecifiedFolder"/"$finalFolder"
+finalFolder="${userSpecifiedFolder}_converted"
+mkdir -p "${finalFolder}"
 
 # go through files in user specified folder and convert them
 for entry in "$userSpecifiedFolder"/*
@@ -42,7 +43,7 @@ do
         if [ "$finalCommand" != "" ]; then
             finalCommand="$finalCommand; "
         fi
-        finalCommand="$finalCommand HandBrakeCLI -i $fspec -o $fdir/$finalFolder/$fnameWitoutExt.mp4"
+        finalCommand="$finalCommand HandBrakeCLI -i $fspec -o $finalFolder/$fnameWitoutExt.mp4"
     fi
 done
 
