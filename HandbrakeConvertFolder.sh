@@ -34,19 +34,21 @@ do
     if [ -f "$entry" ]; then
         export fspec=$entry
         fnameWithExt=$(basename "$fspec")
-        fnameWithoutExt="${fnameWithExt%.*}"
+        printf -v fnameWithExtEsc "%q" "$fnameWithExt"
+        fnameWithoutExt="${fnameWithExtEsc%.*}"
         fext="${fnameWithExt##*.}"
 
         #echo $fspec
         #echo $fdir
         #echo $fnameWithExt
+        #echo $fnameWithExtEsc
         #echo $fnameWithoutExt
         #echo $fext
 
         if [ "$finalCommand" != "" ]; then
             finalCommand="$finalCommand; "
         fi
-        finalCommand="$finalCommand HandBrakeCLI -i $userSpecifiedFolderEsc/$fnameWithExt -o $destinationFolderEsc/$fnameWithoutExt.mp4"
+        finalCommand="$finalCommand HandBrakeCLI -i $userSpecifiedFolderEsc/$fnameWithExtEsc -o $destinationFolderEsc/$fnameWithoutExt.mp4"
     fi
 done
 
