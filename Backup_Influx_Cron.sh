@@ -5,21 +5,22 @@ TZ='Europe/Vienna' date
 DATE=$(date +'%Y-%m-%d_%H-%M')
 DAYOFWEEK=$(date +'%w')
 
-#BACKUP TEMP
-influxd backup -database temp /home/pi/influxdb_backup/temp/$DATE
-tar -cvzf /home/pi/influxdb_backup/temp/temp_$DATE.tar.gz /home/pi/influxdb_backup/temp/$DATE
-rm -R /home/pi/influxdb_backup/temp/$DATE
-scp -l 8192 /home/pi/influxdb_backup/temp/temp_$DATE.tar.gz plex@192.168.1.161:/home/plex/Dokumente/InfluxDB_Backup/temp/temp_$DATE.tar.gz
-if [ "$DAYOFWEEK" != 0 ]; then
-       rm /home/pi/influxdb_backup/temp/temp_$DATE.tar.gz
-fi
+for mode in temp inet
+do
+	#define variables
+	PATHFOLDER="$mode"/"$mode"_"$DATE"
+	PATHPI=/home/pi/influxdb_backup/"$PATHFOLDER"
+	PATHPLEX=/home/plex/Dokumente/InfluxDB_Backup/"$PATHFOLDER"
 
-#BACKUP INET
-influxd backup -database inet /home/pi/influxdb_backup/inet/$DATE
-tar -cvzf /home/pi/influxdb_backup/inet/inet_$DATE.tar.gz /home/pi/influxdb_backup/inet/$DATE
-rm -R /home/pi/influxdb_backup/inet/$DATE
-scp -l 8192 /home/pi/influxdb_backup/inet/inet_$DATE.tar.gz plex@192.168.1.161:/home/plex/Dokumente/InfluxDB_Backup/inet/inet_$DATE.tar.gz
-rm /home/pi/influxdb_backup/inet/inet_$DATE.tar.gz
-if [ "$DAYOFWEEK" != 0 ]; then
-        rm /home/pi/influxdb_backup/inet/inet_$DATE.tar.gz
-fi
+	echo "BACKUP $mode"
+
+	influxd backup -database "$mode" "$PATHPI"
+	tar -cvzf "$PATHPI".tar.gz "$PATHPI"
+	rm -R "$PATHPI"
+	scp -l 8192 "$PATHPI".tar.gz plex@192.168.1.161:"$PATHPLEX".tar.gz
+
+	#remove file if it is not sunday --> weekly backup stays on the pi
+	if [ "$DAYOFWEEK" != 0 ]; then
+		rm "$PATHPI".tar.gz
+	fi
+done
