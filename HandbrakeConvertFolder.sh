@@ -15,7 +15,11 @@
 finalCommand=""
 
 # catch trailing slash from userinput
-read -p "Pfad zum zu konvertierenden Ordner: " inputFolder
+read -p "Pfad zum zu konvertierenden Ordner:
+[Standard: /mnt/plex/data/PlexLibrary/c/]" inputFolder
+if [ ! "$inputFolder" ]; then
+    inputFolder="/mnt/plex/data/PlexLibrary/c/"
+fi
 if [ "${inputFolder: -1}" = "/" ]; then
     inputFolder="${inputFolder%?}"
 fi
