@@ -1,2 +1,0 @@
-# commandlines
-miscellaneous terminal commands
